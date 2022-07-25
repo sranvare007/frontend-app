@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useSetRecoilState } from "recoil";
 import Loader from "../../atoms/Loader";
 import { NetworkManager } from "../../network/networkManager";
+import { Overlay } from "../../state/atoms/overlay";
 
 function EmailSendOut() {
   const [admissionYear, setAdmissionYear] = useState("");
@@ -12,12 +14,12 @@ function EmailSendOut() {
   const [date, setDate] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const setShowOverlay = useSetRecoilState(Overlay);
   const networkManager = new NetworkManager();
 
   const sendOutEmail = async () => {
     try {
-      setIsLoading(true);
+      setShowOverlay(true);
       const htmlText = `<div style="font-family:Verdana">
       <h1>Upcoming drive for ${companyName}</h1>
       <p>Dear Student,</p>
@@ -33,14 +35,14 @@ function EmailSendOut() {
       });
       if (response.status !== "SUCCESS") {
         setError(response.serverMessage);
-        setIsLoading(false);
+        setShowOverlay(false);
       } else {
         setSuccessMessage("Sent out mail successfully.");
-        setIsLoading(false);
+        setShowOverlay(false);
       }
     } catch (error: any) {
       setError(error.message);
-      setIsLoading(false);
+      setShowOverlay(false);
     }
   };
 
@@ -172,29 +174,25 @@ function EmailSendOut() {
             />
             <br />
 
-            {isLoading ? (
-              <Loader height="30" width="30" />
-            ) : (
-              <input
-                type="submit"
-                value="Submit"
-                className={`w-3/4 py-2 mb-8 border-[1px] border-white cursor-pointer hover:bg-blue-300`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setError("");
-                  setSuccessMessage("");
-                  if (
-                    emailSubject.trim() === "" ||
-                    emailText === "" ||
-                    admissionYear === ""
-                  ) {
-                    setError("Please enter valid values");
-                    return;
-                  }
-                  sendOutEmail();
-                }}
-              />
-            )}
+            <input
+              type="submit"
+              value="Submit"
+              className={`w-3/4 py-2 mb-8 border-[1px] border-white cursor-pointer hover:bg-blue-300`}
+              onClick={(e) => {
+                e.preventDefault();
+                setError("");
+                setSuccessMessage("");
+                if (
+                  emailSubject.trim() === "" ||
+                  emailText === "" ||
+                  admissionYear === ""
+                ) {
+                  setError("Please enter valid values");
+                  return;
+                }
+                sendOutEmail();
+              }}
+            />
           </fieldset>
         </form>
       </div>

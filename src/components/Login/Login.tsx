@@ -3,6 +3,7 @@ import { useSetRecoilState } from "recoil";
 import { globalConstants } from "../../global";
 import { NetworkManager } from "../../network/networkManager";
 import { Authentication } from "../../state/atoms/authentication";
+import { Overlay } from "../../state/atoms/overlay";
 
 type LoginProps = {
   setMethod: React.Dispatch<SetStateAction<string>>;
@@ -12,6 +13,7 @@ function Login({ setMethod }: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const setShowOverlay = useSetRecoilState(Overlay)
   const setIsAuthenticated = useSetRecoilState(Authentication);
   const networkManager = new NetworkManager();
 
@@ -54,9 +56,11 @@ function Login({ setMethod }: LoginProps) {
           <button
             className={`w-full py-2 bg-blue-400 text-white font-rajdhani font-medium rounded-sm mt-8`}
             onClick={async () => {
+              setShowOverlay(true)
               setErrorMessage("");
               if (username.trim() === "" || password.trim() === "") {
                 setErrorMessage("Please enter a valid username and password.");
+                setShowOverlay(false)
                 return;
               }
               const response = await networkManager.loginUser("login", {
@@ -70,6 +74,7 @@ function Login({ setMethod }: LoginProps) {
                 localStorage.setItem("jwt", response.data.jwt as string);
                 setIsAuthenticated(true);
               }
+              setShowOverlay(false)
             }}
           >
             Login

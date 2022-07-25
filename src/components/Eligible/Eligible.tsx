@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { MaterialSymbolsDelete, MaterialSymbolsEdit } from "../../atoms/icons";
 import Loader from "../../atoms/Loader";
 import { NetworkManager } from "../../network/networkManager";
+import { Overlay } from "../../state/atoms/overlay";
 
 type StudentDetails = {
   firstName: string;
@@ -16,11 +18,12 @@ type StudentDetails = {
 function Eligible() {
   const [studentList, setStudentList] = useState<StudentDetails[]>([]);
   const [deleteError, setDeleteError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [minCGPA, setMinCGPA] = useState("");
+  const setShowOverlay = useSetRecoilState(Overlay);
   const networkManager = new NetworkManager();
 
   const fetchData = async () => {
+    setShowOverlay(true);
     let response;
 
     if (minCGPA) {
@@ -32,19 +35,24 @@ function Eligible() {
     }
     // @ts-ignore
     setStudentList(response.data.students);
+    setShowOverlay(false);
   };
 
   const deleteStudentDetails = async (registrationId: number) => {
     try {
+      setShowOverlay(true);
+
       const response = await networkManager.deleteStudentDetails(
         `student/${registrationId}`
       );
       fetchData();
       if (response.status !== "200") {
         setDeleteError(response.clientError);
+        setShowOverlay(false);
       }
     } catch (error: any) {
       setDeleteError(error.message);
+      setShowOverlay(false);
     }
   };
 
@@ -157,19 +165,15 @@ function Eligible() {
           />
           <br />
 
-          {isLoading ? (
-            <Loader height="30" width="30" />
-          ) : (
-            <input
-              type="submit"
-              value="Submit"
-              className={`w-3/4 py-2 mb-8 border-[1px] border-white cursor-pointer hover:bg-blue-300`}
-              onClick={(e) => {
-                e.preventDefault();
-                fetchData();
-              }}
-            />
-          )}
+          <input
+            type="submit"
+            value="Submit"
+            className={`w-3/4 py-2 mb-8 border-[1px] border-white cursor-pointer hover:bg-blue-300`}
+            onClick={(e) => {
+              e.preventDefault();
+              fetchData();
+            }}
+          />
         </fieldset>
       </form>
     );

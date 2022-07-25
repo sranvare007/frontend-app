@@ -7,6 +7,8 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
 import { globalConstants } from "../../global";
 import { NetworkManager } from "../../network/networkManager";
+import { useSetRecoilState } from "recoil";
+import { Overlay } from "../../state/atoms/overlay";
 
 function EditStudentData() {
   const [firstName, setFirstName] = useState("");
@@ -21,11 +23,13 @@ function EditStudentData() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const setShowOverlay = useSetRecoilState(Overlay);
   const networkManager = new NetworkManager();
 
   const { id } = useParams();
 
   const populateStudentDetails = async () => {
+    setShowOverlay(true);
     const studentDetails = await networkManager.getStudentDetails(
       `/student/${id}`
     );
@@ -49,6 +53,7 @@ function EditStudentData() {
     setPhoneNumber(phoneNumber);
     setAverageCGPA(averageCGPA);
     setPhotoUrl(photoUrl);
+    setShowOverlay(false);
   };
 
   useEffect(() => {
@@ -57,6 +62,7 @@ function EditStudentData() {
 
   const editStudentDetails = async () => {
     try {
+      setShowOverlay(true);
       const response = await networkManager.editStudentDetails(
         `/student/${id}`,
         {
@@ -76,8 +82,10 @@ function EditStudentData() {
       } else {
         setSuccessMessage("Edited student details successfully");
       }
+      setShowOverlay(false);
     } catch (error: any) {
       setError(error.message);
+      setShowOverlay(false);
     }
   };
 

@@ -5,6 +5,8 @@ import { NetworkManager } from "../../network/networkManager";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
 import { v4 } from "uuid";
+import { useSetRecoilState } from "recoil";
+import { Overlay } from "../../state/atoms/overlay";
 
 function AddStudentData() {
   const [firstName, setFirstName] = useState("");
@@ -20,12 +22,12 @@ function AddStudentData() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const setShowOverlay = useSetRecoilState(Overlay);
   const networkManager = new NetworkManager();
 
   const addStudentDetails = async () => {
     try {
-      setIsLoading(true);
+      setShowOverlay(true);
       const response = await networkManager.insertStudentDetails("/student", {
         firstName,
         middleName,
@@ -43,10 +45,10 @@ function AddStudentData() {
       } else {
         setSuccessMessage("Inserted student details successfully");
       }
-      setIsLoading(false);
+      setShowOverlay(false);
     } catch (error: any) {
       setError(error.message);
-      setIsLoading(false);
+      setShowOverlay(false);
     }
   };
 
@@ -246,30 +248,26 @@ function AddStudentData() {
             </div>
             <br />
 
-            {isLoading ? (
-              <Loader height="30" width="30" />
-            ) : (
-              <input
-                type="submit"
-                value="Submit"
-                className={`w-3/4 py-2 mb-8 border-[1px] border-white cursor-pointer hover:bg-blue-300`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setError("");
-                  setSuccessMessage("");
-                  if (
-                    firstName.trim() === "" ||
-                    lastName === "" ||
-                    admissionYear === "" ||
-                    course === ""
-                  ) {
-                    setError("Please enter valid values");
-                    return;
-                  }
-                  addStudentDetails();
-                }}
-              />
-            )}
+            <input
+              type="submit"
+              value="Submit"
+              className={`w-3/4 py-2 mb-8 border-[1px] border-white cursor-pointer hover:bg-blue-300`}
+              onClick={(e) => {
+                e.preventDefault();
+                setError("");
+                setSuccessMessage("");
+                if (
+                  firstName.trim() === "" ||
+                  lastName === "" ||
+                  admissionYear === "" ||
+                  course === ""
+                ) {
+                  setError("Please enter valid values");
+                  return;
+                }
+                addStudentDetails();
+              }}
+            />
           </fieldset>
         </form>
       </div>

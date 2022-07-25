@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { MaterialSymbolsDelete, MaterialSymbolsEdit } from "../../atoms/icons";
 import { NetworkManager } from "../../network/networkManager";
+import { Overlay } from "../../state/atoms/overlay";
 
 type StudentDetails = {
   firstName: string;
@@ -15,12 +17,15 @@ type StudentDetails = {
 function Info() {
   const [studentList, setStudentList] = useState<StudentDetails[]>([]);
   const [deleteError, setDeleteError] = useState("");
+  const setShowOverlayLoader = useSetRecoilState(Overlay);
   const networkManager = new NetworkManager();
 
   const fetchData = async () => {
+    setShowOverlayLoader(true);
     const response = await networkManager.getStudentList("student");
     // @ts-ignore
     setStudentList(response.data.students);
+    setShowOverlayLoader(false);
   };
 
   const deleteStudentDetails = async (registrationId: number) => {

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { NetworkManager } from "../../network/networkManager";
+import { Overlay } from "../../state/atoms/overlay";
 
 type StudentDetails = {
   firstName: string;
@@ -15,14 +17,17 @@ type StudentDetails = {
 
 function Profile() {
   const [studentInfo, setStudentInfo] = useState<StudentDetails>();
+  const setShowOverlay = useSetRecoilState(Overlay);
   const networkManager = new NetworkManager();
 
   const { id } = useParams();
 
   const fetchData = async () => {
+    setShowOverlay(true);
     const response = await networkManager.getStudentDetails(`/student/${id}`);
     // @ts-ignore
     setStudentInfo(JSON.parse(response.data));
+    setShowOverlay(false);
   };
 
   useEffect(() => {
