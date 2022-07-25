@@ -114,6 +114,7 @@ function Info() {
                 <div
                   className={`col-start-12 col-end-13 flex flex-row justify-center`}
                   onClick={(e) => {
+                    e.preventDefault()
                     e.stopPropagation();
                     deleteStudentDetails(item.registrationId);
                   }}

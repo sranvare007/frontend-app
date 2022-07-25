@@ -239,12 +239,17 @@ function AddStudentData() {
                 name="photo"
                 onChange={(e) => {
                   e.preventDefault();
+                  e.stopPropagation()
                   // @ts-ignore
                   setPhoto(e.target.files[0]);
                 }}
                 className={`w-3/4 rounded-sm py-1 px-4 text-black`}
               />
-              <button onClick={uploadImage}>Upload</button>
+              <button onClick={(e) =>{
+                e.preventDefault()
+                e.stopPropagation()
+                uploadImage()
+              }}>Upload</button>
             </div>
             <br />
 
