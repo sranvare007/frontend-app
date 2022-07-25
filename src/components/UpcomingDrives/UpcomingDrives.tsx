@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
 import { NetworkManager } from "../../network/networkManager";
+import { Overlay } from "../../state/atoms/overlay";
 
 type DriveDetails = {
   id: number;
@@ -12,15 +14,19 @@ type DriveDetails = {
 function UpcomingDrives() {
   const [upcomingDrives, setUpcomingDrives] = useState<DriveDetails[]>([]);
   const [error, setError] = useState("");
+  const setShowOverlay = useSetRecoilState(Overlay)
   const networkManager = new NetworkManager();
 
   const fetchRecruitmentList = async () => {
     try {
+      setShowOverlay(true)
       const response = await networkManager.getRecruitmentList("/recruitment");
       // @ts-ignore
       setUpcomingDrives(response.data.recruitment);
+      setShowOverlay(false)
     } catch (error: any) {
       setError(error.message);
+      setShowOverlay(false)
     }
   };
 
