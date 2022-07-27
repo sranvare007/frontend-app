@@ -37,6 +37,10 @@ export class NetworkManager extends NetworkProvider {
     return super.get(url);
   }
 
+  async getRecruitmentDetails(url: string) {
+    return super.get(url);
+  }
+
   async sendOutEmail(url: string, params: object) {
     return super.post(url, params);
   }

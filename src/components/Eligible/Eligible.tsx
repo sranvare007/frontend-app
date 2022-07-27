@@ -125,8 +125,8 @@ function Eligible() {
                 <div
                   className={`col-start-12 col-end-13 flex flex-row justify-center`}
                   onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
+                    e.preventDefault();
+                    e.stopPropagation();
                     deleteStudentDetails(item.registrationId);
                   }}
                 >
@@ -170,7 +170,7 @@ function Eligible() {
           <input
             type="submit"
             value="Submit"
-            className={`w-3/4 py-2 mb-8 border-[1px] border-white cursor-pointer hover:bg-blue-300`}
+            className={`w-3/4 py-2 mb-8 border-[1px] rounded-md border-white cursor-pointer hover:bg-blue-300`}
             onClick={(e) => {
               e.preventDefault();
               fetchData();

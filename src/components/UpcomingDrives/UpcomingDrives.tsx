@@ -9,7 +9,8 @@ type DriveDetails = {
   companyName: string;
   rolesHiring: [string];
   eligibilityCriteria: string;
-  ctcProvided: number;
+  minCtcProvided: number;
+  maxCtcProvided: number;
 };
 
 function UpcomingDrives() {
@@ -46,7 +47,7 @@ function UpcomingDrives() {
             <div
               className={`flex flex-row items-center justify-end mr-4 mb-4 font-rajdhani text-white mt-4`}
             >
-              <Link to={"/add-drive"}>
+              <Link to={"/add-recruitment"}>
                 <button
                   className={`w-max rounded-md px-4 py-2.5 border border-white hover:bg-blue-300`}
                 >
@@ -63,7 +64,7 @@ function UpcomingDrives() {
           className={`w-full h-full flex flex-col font-rajdhani font-medium text-white`}
         >
           <div className={`flex flex-row items-center justify-end mr-4 mb-4`}>
-            <Link to={"/add-drive"}>
+            <Link to={"/add-recruitment"}>
               <button
                 className={`w-max rounded-md px-4 py-2.5 border border-white hover:bg-blue-300`}
               >
@@ -91,28 +92,31 @@ function UpcomingDrives() {
             </div>
           </div>
           {upcomingDrives.map((item, index) => (
-            <div
-              className={`grid grid-cols-12 py-2.5 items-center border-b-[1px] border-white`}
-              key={index}
-            >
-              <div className={`col-start-1 col-end-2`}>
-                <p className={`text-center`}>{item.id}</p>
-              </div>
-              <div className={`col-start-2 col-end-6`}>
-                <p className={`text-center`}>{item.companyName}</p>
-              </div>
-              <div className={`col-start-6 col-end-8`}>
-                <p className={`text-center`}>{item.rolesHiring.join(", ")}</p>
-              </div>
-              <div className={`col-start-8 col-end-12`}>
-                <p className={`text-center`}>{item.eligibilityCriteria}</p>
-              </div>
+            <Link to={`/recruitment-info/${item.id}`} key={index}>
               <div
-                className={`col-start-12 col-end-13 flex flex-row justify-center`}
+                className={`grid grid-cols-12 py-2.5 items-center border-b-[1px] border-white hover:bg-blue-300`}
               >
-                <p className={`text-center`}>{item.ctcProvided}</p>
+                <div className={`col-start-1 col-end-2`}>
+                  <p className={`text-center`}>{item.id}</p>
+                </div>
+                <div className={`col-start-2 col-end-6`}>
+                  <p className={`text-center`}>{item.companyName}</p>
+                </div>
+                <div className={`col-start-6 col-end-8`}>
+                  <p className={`text-center`}>{item.rolesHiring.join(", ")}</p>
+                </div>
+                <div className={`col-start-8 col-end-12`}>
+                  <p className={`text-center`}>{item.eligibilityCriteria}</p>
+                </div>
+                <div
+                  className={`col-start-12 col-end-13 flex flex-row justify-center`}
+                >
+                  <p className={`text-center`}>
+                    {item.minCtcProvided} - {item.maxCtcProvided}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       );
