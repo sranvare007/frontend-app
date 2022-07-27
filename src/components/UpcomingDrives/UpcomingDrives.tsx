@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { NetworkManager } from "../../network/networkManager";
 import { Overlay } from "../../state/atoms/overlay";
@@ -14,19 +15,19 @@ type DriveDetails = {
 function UpcomingDrives() {
   const [upcomingDrives, setUpcomingDrives] = useState<DriveDetails[]>([]);
   const [error, setError] = useState("");
-  const setShowOverlay = useSetRecoilState(Overlay)
+  const setShowOverlay = useSetRecoilState(Overlay);
   const networkManager = new NetworkManager();
 
   const fetchRecruitmentList = async () => {
     try {
-      setShowOverlay(true)
+      setShowOverlay(true);
       const response = await networkManager.getRecruitmentList("/recruitment");
       // @ts-ignore
       setUpcomingDrives(response.data.recruitment);
-      setShowOverlay(false)
+      setShowOverlay(false);
     } catch (error: any) {
       setError(error.message);
-      setShowOverlay(false)
+      setShowOverlay(false);
     }
   };
 
@@ -38,9 +39,22 @@ function UpcomingDrives() {
     if (upcomingDrives.length === 0) {
       return (
         <div className={`w-full h-full flex justify-center items-center`}>
-          <p className={`font-rajdhani font-bold text-xl text-white`}>
-            No data available!
-          </p>
+          <div className={`flex flex-col`}>
+            <p className={`font-rajdhani font-bold text-xl text-white`}>
+              No data available!
+            </p>
+            <div
+              className={`flex flex-row items-center justify-end mr-4 mb-4 font-rajdhani text-white mt-4`}
+            >
+              <Link to={"/add-drive"}>
+                <button
+                  className={`w-max rounded-md px-4 py-2.5 border border-white hover:bg-blue-300`}
+                >
+                  Add details
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
       );
     } else {
@@ -48,6 +62,15 @@ function UpcomingDrives() {
         <div
           className={`w-full h-full flex flex-col font-rajdhani font-medium text-white`}
         >
+          <div className={`flex flex-row items-center justify-end mr-4 mb-4`}>
+            <Link to={"/add-drive"}>
+              <button
+                className={`w-max rounded-md px-4 py-2.5 border border-white hover:bg-blue-300`}
+              >
+                Add details
+              </button>
+            </Link>
+          </div>
           <div
             className={`grid grid-cols-12 py-2 items-center font-bold text-base mb-2`}
           >

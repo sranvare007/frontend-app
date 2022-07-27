@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Loader from "../../atoms/Loader";
 import { globalConstants } from "../../global";
 import { NetworkManager } from "../../network/networkManager";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -23,7 +22,7 @@ function AddStudentData() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [uploadComplete, setUploadComplete] = useState(false)
+  const [uploadComplete, setUploadComplete] = useState(false);
   const setShowOverlay = useSetRecoilState(Overlay);
   const networkManager = new NetworkManager();
 
@@ -56,7 +55,7 @@ function AddStudentData() {
 
   const uploadImage = () => {
     if (photo == null) return;
-    setUploadComplete(false)
+    setUploadComplete(false);
     const fileName = v4();
     const imageRef = ref(storage, `images/${fileName}`);
     uploadBytes(imageRef, photo)
@@ -69,7 +68,7 @@ function AddStudentData() {
       .catch((err) => {
         setError(err.message);
       });
-      setUploadComplete(true)
+    setUploadComplete(true);
   };
 
   const getAddStudentForm = () => {
@@ -243,26 +242,36 @@ function AddStudentData() {
                 name="photo"
                 onChange={(e) => {
                   e.preventDefault();
-                  e.stopPropagation()
+                  e.stopPropagation();
                   // @ts-ignore
                   setPhoto(e.target.files[0]);
-                  setUploadComplete(false)
+                  setUploadComplete(false);
                 }}
                 className={`w-3/4 rounded-sm py-1 px-4 text-black`}
               />
-              <button onClick={(e) =>{
-                e.preventDefault()
-                e.stopPropagation()
-                uploadImage()
-              }}>Upload</button>
-              {
-                uploadComplete && (
-                  <div className={`text-green-600 flex flex-row items-center ml-2`}>
-                    <MaterialSymbolsCloudDone height="20" width="20" />
-                  </div>
-                )
-              }
-              {photoUrl && <img src={photoUrl} className={`h-32 w-32 ml-3`} alt="profile" />}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  uploadImage();
+                }}
+              >
+                Upload
+              </button>
+              {uploadComplete && (
+                <div
+                  className={`text-green-600 flex flex-row items-center ml-2`}
+                >
+                  <MaterialSymbolsCloudDone height="20" width="20" />
+                </div>
+              )}
+              {photoUrl && (
+                <img
+                  src={photoUrl}
+                  className={`h-32 w-32 ml-3`}
+                  alt="profile"
+                />
+              )}
             </div>
             <br />
 

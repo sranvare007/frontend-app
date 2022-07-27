@@ -1,3 +1,3 @@
 export const Urls = {
-  baseUrl: "https://backend-server-production.up.railway.app/",
+  baseUrl: "http://localhost:3001",
 };

@@ -8,6 +8,7 @@ import EmailSendOut from "../EmailSendOut/EmailSendOut";
 import AddStudentData from "../Add/Add";
 import EditStudentData from "../Edit/Edit";
 import Profile from "../Profile/Profile";
+import AddDriveDetails from "../AddDrive/AddDrive";
 
 function Main() {
   return (
@@ -22,6 +23,7 @@ function Main() {
         <Route path="/add" element={<AddStudentData />} />
         <Route path="/edit/:id" element={<EditStudentData />} />
         <Route path="/info/:id" element={<Profile />} />
+        <Route path="/add-drive" element={<AddDriveDetails />} />
       </Routes>
     </Router>
   );
