@@ -89,7 +89,7 @@ function AddStudentData() {
           >
             <legend>Details:</legend>
             <label htmlFor="fname" className={`font-semibold`}>
-              First name:
+              First name<sup>*</sup> :
             </label>
             <br />
             <input
@@ -104,8 +104,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="mname" className={`font-semibold`}>
-              Middle name:
+            <label htmlFor="mname" className={`font-semibold mt-2`}>
+              Middle name :
             </label>
             <br />
             <input
@@ -120,8 +120,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="lname" className={`font-semibold`}>
-              Last name:
+            <label htmlFor="lname" className={`font-semibold  mt-2`}>
+              Last name<sup>*</sup> :
             </label>
             <br />
             <input
@@ -136,8 +136,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="registrationId" className={`font-semibold`}>
-              Registration Id:
+            <label htmlFor="registrationId" className={`font-semibold  mt-2`}>
+              Registration Id<sup>*</sup> :
             </label>
             <br />
             <input
@@ -152,8 +152,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="admYear" className={`font-semibold`}>
-              Admission Year:
+            <label htmlFor="admYear" className={`font-semibold  mt-2`}>
+              Admission Year<sup>*</sup> :
             </label>
             <br />
             <input
@@ -168,8 +168,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="course" className={`font-semibold`}>
-              Course:
+            <label htmlFor="course" className={`font-semibold  mt-2`}>
+              Course<sup>*</sup> :
             </label>
             <br />
             <input
@@ -184,8 +184,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="averageCGPA" className={`font-semibold`}>
-              Average CGPA
+            <label htmlFor="averageCGPA" className={`font-semibold  mt-2`}>
+              Average CGPA<sup>*</sup> :
             </label>
             <br />
             <input
@@ -200,8 +200,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="emailId" className={`font-semibold`}>
-              Email Id:
+            <label htmlFor="emailId" className={`font-semibold  mt-2`}>
+              Email Id<sup>*</sup> :
             </label>
             <br />
             <input
@@ -216,8 +216,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="phoneNumber" className={`font-semibold`}>
-              Phone Number:
+            <label htmlFor="phoneNumber" className={`font-semibold  mt-2`}>
+              Phone Number<sup>*</sup> :
             </label>
             <br />
             <input
@@ -232,8 +232,8 @@ function AddStudentData() {
             />
             <br />
 
-            <label htmlFor="photo" className={`font-semibold`}>
-              Upload Photo:
+            <label htmlFor="photo" className={`font-semibold  mt-2`}>
+              Upload Photo<sup>*</sup> :
             </label>
             <br />
             <div className={`flex flex-row items-center`}>
@@ -262,7 +262,7 @@ function AddStudentData() {
                   </div>
                 )
               }
-              <img src={photoUrl} className={`h-32 w-32 ml-3`} alt="profile" />
+              {photoUrl && <img src={photoUrl} className={`h-32 w-32 ml-3`} alt="profile" />}
             </div>
             <br />
 
